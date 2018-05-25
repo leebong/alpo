@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+/* 
+	[jsp, html에 스타일을 적용하는 3가지 방법]
+	1. <th style="width=20%">번호</th>
+	2. style 태그를 이용한 방법
+		<style>	</style>
+	3. css파일에 적용하는 방법
+		1) tag
+			tag명{
+			}
+		2) class
+			.class명{
+			}
+		3) id
+			#id명{
+			}
+		4) 
+ */
+
+
+/* clas css 적용시*/
+
+
+.container {
+
+}
+
+.form-home {
+  position: relative;
+  display: inline-block; 
+  width: 10%;
+}
+
+.form-contents {
+  position: relative;
+  display: inline-block;
+  width: 50%; 
+}
+
+.form-write {
+  position: relative;
+  display: inline-block;
+  width: 70%; 
+}
+
+
+.pagenation-active{
+	color:red;
+	font-weight: 700;
+}
+
+.th-number{
+	width: 20%;
+	
+}
+
+.th-contents{
+	width: 60%;
+}
+
+.th-author{
+	width: 20%;
+
+}
+
+.
+
+/* tag css 적용시*/
+body{
+	background-color:white;	
+}
+
+#td-contents{
+	text-align: left;
+}
+
+th{
+	text-align: center;
+}
+
+/* id css 적용시*/
+#id{
+	
+}
