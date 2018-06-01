@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,7 +14,7 @@
 </head>
 <body>
 	<form method="post" class="offset-3 col-6">
-		<div class="text-center">È¸¿ø °¡ÀÔ</div>
+		<div class="text-center">íšŒì› ê°€ìž…</div>
 		<div class="form-group">
 	  		<label for="id">ID:</label>
 	  		<input type="text" class="form-control" name="id">
@@ -26,15 +28,19 @@
 	  		<input type="password" class="form-control" name="pwConfirm">
 		</div>
 		<div class="form-group">
-	  		<label for="pw">email:</label>
+	  		<label for="pw">Naem:</label>
+	  		<input type="name" class="form-control" name="name">
+		</div>
+		<div class="form-group">
+	  		<label for="pw">Email:</label>
 	  		<input type="email" class="form-control" name="email">
 		</div>
 		<button type="submit" class="btn btn-outline-primary 
-			col-12">·Î±×ÀÎ</button>
+			col-12">ê°€ìž…</button>
 	</form>
 	<div class="offset-3 col-6">
 		<a href="/" class="text-center">
-		È¨À¸·Î
+		í™ˆìœ¼ë¡œ
 		</a>
 	</div>
 </body>

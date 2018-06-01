@@ -22,23 +22,30 @@ public class MemberController {
 	public String memberSignupGet() {
 		return "/WEB-INF/views/member/signup.jsp";
 	}
+	
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String memberSignupPost(
 		HttpServletRequest request, Model model) {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
+		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		if(mapper.getUser(id) != null)
 			return "redirect:/member/signup";
-		mapper.setUser(id, pw, email);
+		mapper.setUser(id, pw, name, email);
 		return "redirect:/member/signup/success";
 	}
+	
+	
+	
 	@RequestMapping(value ="/signup/success", 
 			method = RequestMethod.GET)
 	public String memberSignupSuccessGet(
-			String id, String email, Model model) {
+			String id, String email, String name, Model model) {
 		model.addAttribute("id", id);
 		model.addAttribute("email", email);
+		model.addAttribute("name", name);
 		return "/WEB-INF/views/member/signupSuccess.jsp";
 	}
 }

@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div>
-		<h1 class="text-center">${id}님 ${email}로 회원가입 했습니다. </h1>
+		<h1 class="text-center">${id}님 ${email}로 회원가입 되었습니다. </h1>
 	</div>
 	<div>
 		<a  href="/">

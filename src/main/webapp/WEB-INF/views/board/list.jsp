@@ -19,7 +19,7 @@
 	<div class="container">
 		 
 		<div class = "text-center">
-				<h3>[게시판]</h3><br>
+				<h3>[게시판] </h3><br>
 		</div>		
 		<div class="row">
 			<form method = "post" action="/board/list">
@@ -46,6 +46,9 @@
 				<!-- form : 검색버튼 -->
 				<div style="display:inline-block">
 					<button type = "submit" class="btn">검색</button>
+				</div>
+				<div>
+					<h6 align="right"><a href="/logout" >로그아웃</a></h6>
 				</div>				
 			</form>		
 		</div>
@@ -73,12 +76,7 @@
 			  </table>
 		</div>
 		<div class="row">
-			<div class="form-home">
-				<a href="/main">
-				  	<button class="btn btn-default"> 홈 </button>
-				</a>
-			</div>
-			
+
 			<div class="form-contents">  
 			  	<ul class="pagination">
 			  	  <c:if test="${pm.prev}">

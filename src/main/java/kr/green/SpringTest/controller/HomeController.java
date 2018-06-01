@@ -4,15 +4,18 @@ package kr.green.SpringTest.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.green.SpringTest.dao.Mapper;
 import kr.green.SpringTest.dao.User;
+import kr.green.SpringTest.dto.LoginDTO;
 
 
 @Controller
@@ -21,10 +24,14 @@ public class HomeController {
 	Mapper mapper;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String homeGet() {
-				
+	public String homeGet(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		if(user != null)
+			return "redirect:/board/list";
 		return "/WEB-INF/views/home.jsp";
 	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String homePost(String id, String pw, Model model) {
 		model.addAttribute("id", id);
@@ -37,24 +44,23 @@ public class HomeController {
 		return "/WEB-INF/views/main.jsp";
 	}
 	@RequestMapping(value = "/main", method = RequestMethod.POST)
-	public String mainPost(HttpServletRequest request,Model model) {
-		String id = request.getParameter("id");
-		String pw = request.getParameter("pw");
-		User user = mapper.getUser(id);
+	public String mainPost(HttpServletRequest request,Model model, LoginDTO dto) {
+		
+		User user = mapper.login(dto);
 		if(user == null)//계정을 못찾은 경우
 			return "redirect:/";
 		//계정은 찾았지만 비번이 틀린 경우
-		else if(user.getPw().compareTo(pw) != 0)
-			return "redirect:/";
+		model.addAttribute("user", user);
 		return "/WEB-INF/views/main.jsp";
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String testPost(Model model, HttpServletRequest request) {
-		
-		mapper.setUser("1234", "1234", "1234@email");
-		return "/WEB-INF/views/test.jsp";
+	@RequestMapping(value = "/logout")
+	public String logout(HttpServletRequest request,Model model) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("user");
+		return "redirect:/";
 	}
+	
 }
 
 

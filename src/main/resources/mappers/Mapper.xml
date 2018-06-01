@@ -16,7 +16,11 @@
     select * from account where id = #{id}
   </select>
   <insert id="setUser">
-    insert into account (id,pw,email) values (#{id}, #{pw},#{email})
+    insert into account (id,pw,name,email) values (#{id}, #{pw},#{name},#{email})
   </insert>
+  <select id="login" resultType="kr.green.SpringTest.dao.User">
+  	select * from account where id = #{id} and pw = #{pw}
+  </select>
+  
 	
 </mapper>

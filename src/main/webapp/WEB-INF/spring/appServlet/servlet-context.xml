@@ -23,6 +23,32 @@
 	
 	<context:component-scan base-package="kr.green.SpringTest" />
 	
+	<beans:bean id="loginInterceptor" class="kr.green.SpringTest.interceptor.LoginInterceptor">
+	</beans:bean>
+	
+	<beans:bean id = "authInterceptor" class="kr.green.SpringTest.interceptor.AuthInterceptor">
+	</beans:bean>
+	
+	<beans:bean id = "unauthInterceptor" class="kr.green.SpringTest.interceptor.UnauthInterceptor">
+	</beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/main"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/board/*"/> <!-- "/board/" 하위경로로 시작되는 하위메뉴에 대한 접속보안 -->
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/member/*"/> <!-- "/member/" 하위경로로 시작되는 하위메뉴에 대한 접속보안 -->
+			<mapping path="/"/>
+			<beans:ref bean="unauthInterceptor"/>
+		</interceptor>
+		
+	</interceptors>
+	
 	
 	
 </beans:beans>

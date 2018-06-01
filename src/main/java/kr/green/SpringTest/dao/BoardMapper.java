@@ -28,6 +28,8 @@ public interface BoardMapper {
 	
 	public List<Board> getPageBoardsByAuthor(@Param("p")Page p, @Param("search")String search);
 	public Integer getBoardsCountByAuthor(@Param("search")String search);
+
+
 	
 }
 

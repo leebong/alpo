@@ -3,6 +3,7 @@ package kr.green.SpringTest.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.green.SpringTest.dao.Board;
 import kr.green.SpringTest.dao.BoardMapper;
+import kr.green.SpringTest.dao.User;
 import kr.green.SpringTest.page.Page;
 import kr.green.SpringTest.page.PageMaker;
 
@@ -22,15 +24,27 @@ public class BoardController {
 	BoardMapper boardMapper;
 	
 	@RequestMapping(value="/write", method= RequestMethod.GET)
-	public String boardWriteGet(Model model) {
+	public String boardWriteGet(Model model, HttpServletRequest request) {
+		//글쓰기에 로그인 아이디를 작성자로 표기하기
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		model.addAttribute("author", user.getName());
+		
 		return "/WEB-INF/views/board/write.jsp";
 	}
 	
 	@RequestMapping(value="/write", method= RequestMethod.POST)
 	public String boardWritePOST(Model model, HttpServletRequest request) {
+			
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
-		String author = request.getParameter("author");
+		String author;
+
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		author = user.getName();
+		System.out.println(author);
+		
 		boardMapper.setBoard(title, contents, author);
 		return "redirect:/board/list";
 	}
@@ -38,6 +52,13 @@ public class BoardController {
 	@RequestMapping(value="/list", method= RequestMethod.GET)
 	public String boardListGet(Model model, Integer page, HttpServletRequest r) {
 		//ArrayList<Board> list = (ArrayList)boardMapper.getBoards();
+		//로그인 아이디 콘솔 확인
+		
+		HttpSession session = r.getSession();
+		User user = (User)session.getAttribute("user");
+		System.out.println(user.getId());
+		
+		
 		if(page == null)
 			page = 1;
 		Page p = new Page(page,3);
@@ -46,16 +67,19 @@ public class BoardController {
 		String search = r.getParameter("search");
 		Integer searchType;
 		String tmp = r.getParameter("searchType");
+		//if(tmp == null || tmp.length() == 0) page error일때 "searchType=" -> "searchType=0"
 		if(tmp == null)
 			searchType = 0;
 		else
 			searchType = Integer.parseInt(tmp);
 		
 		//검색어가 없을 때
+		
 		if(search == null || search.length() == 0 || searchType == null) {
-			list = (ArrayList)boardMapper.getPageBoards(p);
-			totalCount = boardMapper.getBoardsCount();
 			
+			list = (ArrayList)boardMapper.getPageBoards(p);
+			
+			totalCount = boardMapper.getBoardsCount();
 		}
 		//검색어가 있을 때
 		/**
@@ -86,12 +110,14 @@ public class BoardController {
 				model.addAttribute("searchType", 2);
 			}
 		}	
+		
 		PageMaker pm = new PageMaker();
 		pm.setPage(p);
 		pm.setTotalCount(totalCount);
 		model.addAttribute("list", list);
 		model.addAttribute("pm", pm);
 		model.addAttribute("search", search);
+		model.addAttribute("searchType", searchType);
 		System.out.println("Get 검색 : " + search);
 		return "/WEB-INF/views/board/list.jsp";
 	}
